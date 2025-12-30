@@ -522,7 +522,7 @@
             height: 100%;
             object-fit: cover;
             transition: 0.8s cubic-bezier(0.2, 1, 0.2, 1);
-            filter: grayscale(100%);
+            filter: grayscale(0%);
         }
 
         .portfolio-overlay {
@@ -539,7 +539,6 @@
 
         .portfolio-item:hover img {
             transform: scale(1.1);
-            filter: grayscale(0%);
         }
 
         .portfolio-item:hover .portfolio-overlay {
@@ -565,7 +564,7 @@
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            gap: 20px;
         }
 
         .testimonial-card {
@@ -787,41 +786,299 @@
         }
 
         /* Responsive */
-        @media (max-width: 900px) {
-            .hero h1 {
-                font-size: 3.5rem;
+        /* --- MOBILE MENU & RESPONSIVE --- */
+        .hamburger-menu {
+            display: none;
+            font-size: 1.8rem;
+            color: #fff;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2rem;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .mobile-menu-list {
+            list-style: none;
+            text-align: center;
+            padding: 0;
+        }
+
+        .mobile-menu-list li {
+            margin: 25px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.5s;
+        }
+
+        /* Staggered animation for menu items via nth-child would be nice but simple fade is ok */
+        .mobile-menu-overlay.active .mobile-menu-list li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-menu-list a {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .mobile-menu-list a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Fluid Typography */
+        html {
+            font-size: 100%;
+        }
+
+        /* Base 16px */
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw + 1rem, 5.5rem);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 4vw + 1rem, 4rem);
+        }
+
+        /* --- BREAKPOINTS --- */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 95%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 30px;
             }
 
-            .service-row,
-            .process-grid,
-            .portfolio-grid,
-            .testimonials-grid,
-            .contact-section,
-            .about-grid,
-            .values-grid,
+            .service-row {
+                grid-template-columns: 1fr 2fr;
+                gap: 40px;
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-number {
+                opacity: 0.1;
+                font-size: 80px;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .desktop-nav,
+            .desktop-cta {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .service-row {
                 grid-template-columns: 1fr;
+                text-align: center;
+                padding: 50px 20px;
+                margin: 0;
+                /* Reset negative margins */
+            }
+
+            .service-info {
+                margin-bottom: 20px;
             }
 
             .service-lists-grid {
                 grid-template-columns: 1fr;
+                text-align: left;
             }
 
-            .nav-wrapper nav {
-                display: none;
+            .about-grid,
+            .contact-section {
+                grid-template-columns: 1fr;
+                padding: 40px 20px;
+                gap: 40px;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero {
+                padding-top: 120px;
+                text-align: center;
+            }
+
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                line-height: 1.2;
+                margin-bottom: 20px;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
             }
 
             .contact-section {
-                padding: 40px;
+                padding: 20px;
             }
 
-            .section-title {
-                font-size: 2.5rem;
+            .submit-btn {
+                width: 100%;
+            }
+        }
+
+        /* Touch Device Fixes - Remove Hover Effects */
+        @media (hover: none) {
+            .portfolio-overlay {
+                opacity: 1;
+                transform: translateY(0);
+                background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.6) 80%, transparent);
+                padding: 20px;
             }
 
-            .section-number {
-                display: none;
+            .portfolio-tag {
+                display: inline-block;
+                color: var(--accent-color);
+                margin-bottom: 5px;
+                text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
             }
+
+            .value-card:hover,
+            .process-card:hover,
+            .service-row:hover,
+            .testimonial-card:hover,
+            .header-cta:hover,
+            .marquee-item:hover,
+            .social-icon:hover,
+            .faq-question:hover {
+                transform: none !important;
+                box-shadow: none !important;
+                border-color: #222 !important;
+                /* Reset to default border color if needed, or transparent */
+                background: inherit !important;
+                color: inherit !important;
+                text-shadow: none !important;
+            }
+
+            /* Specific reset for service-row border */
+            .service-row:hover {
+                border-bottom-color: #1a1a1a !important;
+            }
+
+
+            .process-card:hover {
+                border-color: #1a1a1a !important;
+            }
+
+            .value-card:hover {
+                border-color: #222 !important;
+            }
+
+
+            .about-image img {
+                filter: grayscale(0%);
+            }
+        }
+
+        /* WhatsApp Floating Icon */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.6);
+        }
+
+        .my-float {
+            margin-top: 16px;
         }
     </style>
 </head>
@@ -835,7 +1092,7 @@
                     <img src="./assets/logo.png" alt="Garvik India">
                 </a>
             </div>
-            <nav>
+            <nav class="desktop-nav">
                 <ul>
                     <li><a href="#about">About</a></li>
                     <li><a href="#process">Process</a></li>
@@ -845,9 +1102,28 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <a href="#contact" class="header-cta">Partner With Us</a>
+            <a href="#contact" class="header-cta desktop-cta">Partner With Us</a>
+
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay">
+        <div class="mobile-menu-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <ul class="mobile-menu-list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
 
     <section class="hero">
         <div class="container">
@@ -907,9 +1183,7 @@
                     <!-- Placeholder for team/company image -->
                     <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"
                         alt="Garvik Team"
-                        style="width: 100%; border-radius: 4px; filter: grayscale(100%); transition: 0.5s; cursor:pointer;"
-                        onmouseover="this.style.filter='grayscale(0%)'"
-                        onmouseout="this.style.filter='grayscale(100%)'">
+                        style="width: 100%; border-radius: 4px; filter: grayscale(0%); transition: 0.5s; cursor:pointer;">
                 </div>
             </div>
 
@@ -1082,56 +1356,37 @@
                     <h3>BizzShort - AI Anchor Video</h3>
                 </div>
                 <div class="service-detail">
-                    <p class="main-text">BizzShort is a smart digital platform that delivers short, credible, and
-                        creative
-                        business stories — helping you stay informed and inspired in less time. We empower businesses
-                        and entrepreneurs to create powerful videos and video marketing campaigns that boost their
-                        brand visibility and audience reach.</p>
+                    <p class="main-text">Bizzshort is a smart digital platform that delivers short, credible, and
+                        creative business stories — helping you stay informed and inspired in less time.
+                        <br><br>
+                        We also empower businesses and entrepreneurs to create powerful videos and video marketing
+                        campaigns that boost their brand visibility and audience reach.
+                        From idea to execution, Bizzshort blends business insights with storytelling to make every
+                        message matter.
+                    </p>
 
                     <div class="service-lists-grid">
                         <div class="service-list-block">
-                            <h5 style="color: #ff007f;">Key Features</h5>
+                            <h5 style="color: #ff007f;">Why Bizzshort</h5>
                             <ul class="feature-list" style="list-style: none;">
                                 <li style="position: relative; padding-left: 20px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">•</span> Short. Smart.
-                                    Strategic.</li>
+                                        style="color: #ff007f; position: absolute; left: 0;">•</span> <strong>Short.
+                                        Smart. Strategic.</strong><br>
+                                    Quick, reliable updates and content that save your time and grow your impact.</li>
                                 <li style="position: relative; padding-left: 20px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">•</span> Empowering Growth.
+                                        style="color: #ff007f; position: absolute; left: 0;">•</span> <strong>Empowering
+                                        Growth.</strong><br>
+                                    We help brands and entrepreneurs with video creation, storytelling, and marketing
+                                    that drives digital success.
                                 </li>
                                 <li style="position: relative; padding-left: 20px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">•</span> Everywhere You
-                                    Are.
+                                        style="color: #ff007f; position: absolute; left: 0;">•</span> <strong>Everywhere
+                                        You Are.</strong><br>
+                                    On web, podcast, and social media — your story travels with your audience.
                                 </li>
-                                <li style="position: relative; padding-left: 20px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">•</span> Custom Backgrounds
-                                    &
-                                    Branding.</li>
-                            </ul>
-                        </div>
-                        <div class="service-list-block">
-                            <h5 style="color: #ff007f;">Your Benefits</h5>
-                            <ul class="benefit-list" style="list-style: none;">
-                                <li style="position: relative; padding-left: 25px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">✓</span> Slash Video
-                                    Production
-                                    Costs by 80%</li>
-                                <li style="position: relative; padding-left: 25px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">✓</span> Global Reach with
-                                    Localized Audio</li>
-                                <li style="position: relative; padding-left: 25px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">✓</span> Consistency in
-                                    Brand
-                                    Messaging</li>
-                                <li style="position: relative; padding-left: 25px;"><span
-                                        style="color: #ff007f; position: absolute; left: 0;">✓</span> 24 Hour Turnaround
-                                    Times</li>
                             </ul>
                         </div>
                     </div>
-
-                    <div class="why-box" style="border-left: 3px solid #ff007f;"><strong>Why Choose Us:</strong> From
-                        idea to execution, Bizzshort blends business insights with storytelling to make every message
-                        matter.</div>
                 </div>
             </div>
 
@@ -1169,6 +1424,44 @@
 
                     <div class="why-box"><strong>Why Choose Us:</strong> Your website is your 24/7 global salesperson.
                         We optimize it for conversion from day one, ensuring visitors turn into loyal customers.</div>
+                </div>
+            </div>
+
+            <!-- Service 5: Content Writing -->
+            <div class="service-row reveal">
+                <div class="service-info"><i class="fas fa-pen-nib"></i>
+                    <h3>Content Writing</h3>
+                </div>
+                <div class="service-detail">
+                    <p class="main-text">Words have power. We craft compelling narratives that resonate with your
+                        audience,
+                        building authority and trust. From technical blogs to persuasive copy, our words work as hard as
+                        you do.</p>
+
+                    <div class="service-lists-grid">
+                        <div class="service-list-block">
+                            <h5>Key Features</h5>
+                            <ul class="feature-list">
+                                <li>SEO-Optimized Blog & Article Writing</li>
+                                <li>Website Copywriting & UX Writing</li>
+                                <li>White Papers & Case Studies</li>
+                                <li>Social Media Captions & Ad Copy</li>
+                            </ul>
+                        </div>
+                        <div class="service-list-block">
+                            <h5>Your Benefits</h5>
+                            <ul class="benefit-list">
+                                <li>Establish Thought Leadership</li>
+                                <li>Improve Search Engine Rankings</li>
+                                <li>Convert Readers into Buyers</li>
+                                <li>Clear, Consistent Brand Voice</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="why-box"><strong>Why Choose Us:</strong> We don't just fill pages; we craft messages
+                        that
+                        stick. Our content is researched, strategic, and designed to move the needle.</div>
                 </div>
             </div>
         </div>
@@ -1240,10 +1533,10 @@
             </div>
 
             <!-- ADDED: Testimonials block inside Work section or separate -->
-            <div style="margin-top: 100px;">
-                <h3 style="text-align: center; margin-bottom: 60px; font-size: 2.5rem;">Client <span
+            <div style="margin-top: 50px;">
+                <h3 style="text-align: center; margin-bottom: 30px; font-size: 2.5rem;">Client <span
                         class="highlight-text">Testimonials</span></h3>
-                <div class="testimonials-grid reveal" style="margin-top: 50px;">
+                <div class="testimonials-grid reveal" style="margin-top: 30px;">
                     <div class="testimonial-card" style="padding: 0; overflow: hidden; background: #000;">
                         <video controls style="width: 100%; height: 100%; border-radius: 8px;">
                             <source src="./assets/works/Testimonial.mp4" type="video/mp4">
@@ -1334,6 +1627,11 @@
             <div class="contact-section reveal">
                 <div class="contact-info">
                     <h3 style="margin-bottom: 30px; font-size: 2.5rem;">Let's build something <br>extraordinary.</h3>
+
+                    <!-- WhatsApp Icon -->
+                    <a href="https://wa.me/919999999999" class="whatsapp-float" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                     <p style="margin-bottom: 40px;">Ready to dominate your market? Drop us a line.</p>
 
                     <div style="margin-bottom: 20px;">
@@ -1475,6 +1773,28 @@
 
         // Trigger once on load
         reveal();
+
+        // Mobile Menu Script
+        const hamburger = document.querySelector('.hamburger-menu');
+        const mobileMenu = document.querySelector('.mobile-menu-overlay');
+        const closeMenu = document.querySelector('.mobile-menu-close');
+        const mobileLinks = document.querySelectorAll('.mobile-menu-list li a');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+
+        const closeMobileMenu = () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        closeMenu.addEventListener('click', closeMobileMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
     </script>
 </body>
 
